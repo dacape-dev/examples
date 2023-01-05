@@ -1,1 +1,5 @@
 # Kotlin Hello world with Android Jetpack and Material design 3 
+
+## Dependencies
+
+## Build and run

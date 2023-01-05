@@ -1,3 +1,3 @@
-# Kotlin
+# 🤖 Kotlin
 
-## Build and run
+## 🚀 Build and run

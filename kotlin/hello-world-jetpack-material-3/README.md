@@ -2,3 +2,5 @@
 
 ## 📚 Dependencies
 
+* compose_version = '1.1.1'
+* material3_version = '1.0.1'

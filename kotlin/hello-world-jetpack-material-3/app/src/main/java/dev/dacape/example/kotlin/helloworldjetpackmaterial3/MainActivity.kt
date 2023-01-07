@@ -46,13 +46,14 @@ fun HelloWorldWithTextField() {
 
     Column(modifier = Modifier.padding(10.dp)) {
         TextField(
+            modifier = Modifier.fillMaxWidth(),
             value = text,
             onValueChange = { text = it },
             label = { Text("Your name") }
         )
 
         Box(modifier = Modifier.fillMaxWidth()){
-            Text(text = "Hello " + text.text, modifier = Modifier.align(Alignment.Center))
+            Text(text = "Hello " + text.text + "!", modifier = Modifier.align(Alignment.Center))
         }
     }
 }

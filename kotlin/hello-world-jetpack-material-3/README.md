@@ -1,5 +1,7 @@
 # ⭐ Kotlin Hello world with Android Jetpack and Material design 3 
 
+https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/helloworld.png
+
 ## 📚 Dependencies
 
 * compose_version = '1.1.1'

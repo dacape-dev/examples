@@ -54,7 +54,7 @@ fun HelloWorldWithTextField() {
         )
 
         Box(modifier = Modifier.fillMaxWidth()){
-            Text(text = "Hello " + text.text + "!", modifier = Modifier.align(Alignment.Center))
+            Text(text = "Hello ${text.text}!", modifier = Modifier.align(Alignment.Center))
         }
     }
 }

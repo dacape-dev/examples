@@ -20,7 +20,3 @@
 ## 🚀 Build and run
 
 https://github.com/dacape-dev/examples/tree/main/kotlin#-build-and-run
-
-## 📲 Capture
-
-![Hello world snapshot](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/snapshot.png#center)

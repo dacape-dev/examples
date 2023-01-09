@@ -1,7 +1,7 @@
 # ⭐ Hello world with Kotlin, Android Jetpack and Material design 3 
 
 
-![Hello world](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/helloworld.png)
+![Hello world](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/helloworld.png#center)
 
 ## 📚 Dependencies
 
@@ -23,4 +23,4 @@ https://github.com/dacape-dev/examples/tree/main/kotlin#-build-and-run
 
 ## 📲 Capture
 
-![Hello world snapshot](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/snapshot.png)
+![Hello world snapshot](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/snapshot.png#center)

@@ -1,4 +1,4 @@
-package dev.dacape.example.kotlin.navigationjetpack
+package dev.dacape.example.kotlin.navigationjetpackcompose
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,13 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.dacape.example.kotlin.navigationjetpack.ui.theme.NavigationjetpackTheme
+import dev.dacape.example.kotlin.navigationjetpackcompose.ui.theme.NavigationJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NavigationjetpackTheme {
+            NavigationJetpackComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -37,7 +37,7 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    NavigationjetpackTheme {
+    NavigationJetpackComposeTheme {
         Greeting("Android")
     }
 }

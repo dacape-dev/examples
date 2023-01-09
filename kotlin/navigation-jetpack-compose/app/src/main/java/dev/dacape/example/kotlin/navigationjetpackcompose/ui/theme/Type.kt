@@ -1,4 +1,4 @@
-package dev.dacape.example.kotlin.navigationjetpack.ui.theme
+package dev.dacape.example.kotlin.navigationjetpackcompose.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

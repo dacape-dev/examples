@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'dev.dacape.example.kotlin.navigationjetpack'
+    namespace 'dev.dacape.example.kotlin.navigationjetpackcompose'
     compileSdk 33
 
     defaultConfig {
-        applicationId "dev.dacape.example.kotlin.navigationjetpack"
+        applicationId "dev.dacape.example.kotlin.navigationjetpackcompose"
         minSdk 21
         targetSdk 33
         versionCode 1

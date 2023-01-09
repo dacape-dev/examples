@@ -1,4 +1,4 @@
-package dev.dacape.example.kotlin.navigationjetpack
+package dev.dacape.example.kotlin.navigationjetpackcompose
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("dev.dacape.example.kotlin.navigationjetpack", appContext.packageName)
+        assertEquals("dev.dacape.example.kotlin.navigationjetpackcompose", appContext.packageName)
     }
 }

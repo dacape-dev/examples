@@ -1,4 +1,4 @@
-package dev.dacape.example.kotlin.navigationjetpack
+package dev.dacape.example.kotlin.navigationjetpackcompose
 
 import org.junit.Test
 

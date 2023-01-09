@@ -1,4 +1,4 @@
-# ⭐ Kotlin Hello world with Android Jetpack and Material design 3 
+# ⭐ Hello world with Kotlin, Android Jetpack and Material design 3 
 
 
 ![Hello world](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/helloworld.png)

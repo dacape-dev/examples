@@ -6,7 +6,8 @@
 
 Run the app in an emulator as follows:
 
-1. In Android Studio, create an Android Virtual Device (AVD) that the emulator can use to install and run the app.
+1. Clone or download the sample you want and import it as a project in Android Studio. 
+1. If you don't have an Android Virtual Device (AVD), create it so the emulator can use it to install and run the app.
 2. In the toolbar, select your app from the run and debug configurations dropdown menu.
 3. From the target device dropdown menu, select the AVD on which you want to run the app.
 4. Click Run.

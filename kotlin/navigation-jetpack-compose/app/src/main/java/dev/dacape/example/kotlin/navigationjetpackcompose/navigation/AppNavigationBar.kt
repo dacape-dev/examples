@@ -10,7 +10,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 fun AppNavigationBar(navController: NavHostController) {
     val items = listOf(
         AppNavigationBarItems.Home,
-        AppNavigationBarItems.Page1,
+        AppNavigationBarItems.Pages,
     )
     NavigationBar {
         val backStackEntry by navController.currentBackStackEntryAsState()

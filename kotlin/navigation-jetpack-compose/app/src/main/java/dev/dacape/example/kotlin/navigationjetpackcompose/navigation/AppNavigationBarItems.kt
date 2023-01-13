@@ -7,5 +7,5 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class AppNavigationBarItems(val route: String, val label: String, val icon: ImageVector) {
     object Home : AppNavigationBarItems("home", "Home", Icons.Filled.Home)
-    object Page1 : AppNavigationBarItems("page1", "Page1", Icons.Filled.Star)
+    object Pages : AppNavigationBarItems("pages", "Pages", Icons.Filled.Star)
 }

@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun Home(modifier: Modifier) {
+fun Home2(modifier: Modifier) {
     Box(modifier = modifier) {
-        Text("Home")
+        Text("Home2")
     }
 }

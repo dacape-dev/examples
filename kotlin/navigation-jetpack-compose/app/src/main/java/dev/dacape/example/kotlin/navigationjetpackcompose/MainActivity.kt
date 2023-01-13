@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import dev.dacape.example.kotlin.navigationjetpackcompose.navigation.MainNavigationBar
-import dev.dacape.example.kotlin.navigationjetpackcompose.navigation.NavigationHost
+import dev.dacape.example.kotlin.navigationjetpackcompose.navigation.AppNavigationBar
+import dev.dacape.example.kotlin.navigationjetpackcompose.navigation.AppNavigationHost
 import dev.dacape.example.kotlin.navigationjetpackcompose.ui.theme.NavigationJetpackComposeTheme
 
 @ExperimentalMaterial3Api
@@ -38,9 +38,9 @@ fun Main() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
-            MainNavigationBar(navController = navController)
+            AppNavigationBar(navController = navController)
         },
-        content = { NavigationHost(navController = navController, modifier = Modifier.padding(it)) }
+        content = { AppNavigationHost(navController = navController, modifier = Modifier.padding(it)) }
     )
 }
 

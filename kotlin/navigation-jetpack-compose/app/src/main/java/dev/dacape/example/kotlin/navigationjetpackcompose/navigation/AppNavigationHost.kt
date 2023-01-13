@@ -11,17 +11,17 @@ import dev.dacape.example.kotlin.navigationjetpackcompose.Page1
 
 @ExperimentalMaterial3Api
 @Composable
-fun NavigationHost(navController: NavHostController, modifier: Modifier) {
+fun AppNavigationHost(navController: NavHostController, modifier: Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = NavBarItems.Home.route,
+        startDestination = AppNavigationBarItems.Home.route,
     ) {
-        composable(NavBarItems.Home.route) {
+        composable(AppNavigationBarItems.Home.route) {
             Home(modifier)
         }
 
-        composable(NavBarItems.Page1.route) {
+        composable(AppNavigationBarItems.Page1.route) {
             Page1(modifier)
         }
     }

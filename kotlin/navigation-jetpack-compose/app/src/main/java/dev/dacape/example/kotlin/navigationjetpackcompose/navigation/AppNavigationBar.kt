@@ -7,10 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun MainNavigationBar(navController: NavHostController) {
+fun AppNavigationBar(navController: NavHostController) {
     val items = listOf(
-        NavBarItems.Home,
-        NavBarItems.Page1,
+        AppNavigationBarItems.Home,
+        AppNavigationBarItems.Page1,
     )
     NavigationBar {
         val backStackEntry by navController.currentBackStackEntryAsState()

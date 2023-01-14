@@ -1,6 +1,6 @@
 # ⭐ Navigation with Jetpack Compose
 
-Bottom navigation bar app developed with Kotlin, Jetpack Compose and Material Design 3.
+Simple bottom navigation bar app developed with Kotlin, Jetpack Compose and Material Design 3.
 
 ## 📚 Dependencies
 

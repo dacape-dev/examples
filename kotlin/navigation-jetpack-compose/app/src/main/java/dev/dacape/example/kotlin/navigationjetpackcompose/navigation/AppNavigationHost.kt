@@ -16,7 +16,6 @@ import dev.dacape.example.kotlin.navigationjetpackcompose.Page1
 @ExperimentalMaterial3Api
 @Composable
 fun AppNavigationHost(navController: NavHostController, modifier: Modifier) {
-
     NavHost(
         navController = navController,
         startDestination = AppNavigationBarItems.Home.route,

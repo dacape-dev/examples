@@ -2,6 +2,7 @@ package dev.dacape.example.kotlin.navigationjetpackcompose.navigation
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -14,13 +15,13 @@ fun AppNavigationBar(navController: NavHostController) {
     )
     NavigationBar {
         val backStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = backStackEntry?.destination?.route
+        val currentDestination = backStackEntry?.destination
 
         items.forEach { item ->
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = null) },
                 label = { Text(item.label) },
-                selected = currentRoute == item.route,
+                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 onClick = {
                     navController.navigate(item.route) {
                         popUpTo(navController.graph.findStartDestination().id) {

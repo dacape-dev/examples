@@ -19,5 +19,4 @@ fun Home1(modifier: Modifier, onNavigateToHome2: () -> Unit) {
             }
         }
     }
-
 }

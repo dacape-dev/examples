@@ -6,20 +6,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 
 @Composable
 fun AppNavigationHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "home"
+    startDestination: String = "home/{name}"
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable("home") {
-            Home()
+        composable(
+            "home/{name}",
+            deepLinks = listOf(navDeepLink { uriPattern = "www.example.com/{name}" })
+        ) {
+            backStackEntry ->
+                Home(backStackEntry.arguments?.getString("name"))
         }
     }
 }

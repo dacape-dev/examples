@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Home() {
+fun Home(name: String?) {
     Box(Modifier.padding(15.dp)){
         Column() {
-            Text("Home")
+            Text("Hello $name")
         }
     }
 }

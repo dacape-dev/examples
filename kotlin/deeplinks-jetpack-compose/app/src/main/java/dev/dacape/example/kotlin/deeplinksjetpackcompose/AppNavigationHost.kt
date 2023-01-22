@@ -25,7 +25,10 @@ fun AppNavigationHost(
         composable(
             "home/{name}",
             deepLinks = listOf(navDeepLink {
-                uriPattern = "https://www.dacape.dev/examples/kotlin/deeplinks-jetpack-compose/{name}"
+                uriPattern = "https://www.dacape.dev/{name}"
+                action = Intent.ACTION_VIEW
+            }, navDeepLink {
+                uriPattern = "dacapetest://www.dacape.dev/{name}"
                 action = Intent.ACTION_VIEW
             }),
             arguments = listOf(navArgument("name") {

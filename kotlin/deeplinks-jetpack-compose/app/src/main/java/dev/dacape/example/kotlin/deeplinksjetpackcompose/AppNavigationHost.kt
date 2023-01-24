@@ -28,7 +28,7 @@ fun AppNavigationHost(
                 uriPattern = "https://www.dacape.dev/{name}"
                 action = Intent.ACTION_VIEW
             }, navDeepLink {
-                uriPattern = "dacapetest://www.dacape.dev/{name}"
+                uriPattern = "dacape://www.dacape.dev/{name}"
                 action = Intent.ACTION_VIEW
             }),
             arguments = listOf(navArgument("name") {

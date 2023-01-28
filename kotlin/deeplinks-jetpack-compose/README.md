@@ -1,6 +1,6 @@
 # ⭐ Deeplinks with Jetpack Compose
 
-Simple Android app with deeplinks (application link & web link) developed with Kotlin, Jetpack Compose and Material Design 3.
+Simple Android application with deeplinks (application link & web link) developed with Kotlin, Jetpack Compose and Material Design 3.
 
 ## 📚 Dependencies
 

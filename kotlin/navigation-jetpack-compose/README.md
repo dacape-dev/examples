@@ -2,7 +2,7 @@
 
 ![Navigation with Jetpack Compose](https://github.com/dacape-dev/examples/blob/main/kotlin/navigation-jetpack-compose/navigation.png#center)
 
-Simple bottom navigation bar app developed with Kotlin, Jetpack Compose and Material Design 3.
+Simple bottom navigation bar Android app developed with Kotlin, Jetpack Compose and Material Design 3.
 
 ## 📚 Dependencies
 

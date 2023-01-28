@@ -1,8 +1,10 @@
-# 🤖 Kotlin
+# ⭐️ Kotlin
 
-## 🚀 Build and run
+## 🤖 Android
 
-### How to run the app on an emulator
+### 🚀 Build and run
+
+#### How to run the app on an emulator
 
 Run the app in an emulator as follows:
 

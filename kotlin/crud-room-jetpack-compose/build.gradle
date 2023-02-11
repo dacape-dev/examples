@@ -1,6 +1,10 @@
 buildscript {
     ext {
         compose_version = '1.1.1'
+        material3_version = '1.0.1'
+        nav_version = '2.5.3'
+        room_version = '2.4.3'
+        runtime_livedata = '1.2.1'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

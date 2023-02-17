@@ -11,13 +11,13 @@ import dev.dacape.example.kotlin.crudroomjetpackcompose.db.model.Note
 interface NoteDao {
 
     @Insert
-    fun insert(note: Note): Long
+    fun insert(note: Note)
 
     @Update
     fun update(note: Note)
 
     @Query("DELETE FROM notes WHERE id = :id")
-    fun delete(id: Long)
+    fun delete(id: Int)
 
     @Query("SELECT * FROM notes")
     fun all(): LiveData<List<Note>>

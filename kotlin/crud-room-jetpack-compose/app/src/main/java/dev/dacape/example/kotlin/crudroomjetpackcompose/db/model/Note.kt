@@ -7,18 +7,17 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "notes")
-data class Note (
+data class Note(
 
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     @ColumnInfo(name = "id")
-    var id: Int,
+    var id: Int?,
 
     @ColumnInfo(name = "text")
     var text: String,
 
     @ColumnInfo(name = "create")
-    var create: Date = Date(),
+    var create: Date? = Date(),
 
     @ColumnInfo(name = "update")
     var update: Date?

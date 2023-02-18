@@ -11,13 +11,13 @@ class NoteViewModel(application: Application): ViewModel() {
 
     private val repository: NotesRepository
 
-    //val all = LiveData<List<Note>>()
+    val all: LiveData<List<Note>>
 
     init {
         val db = NotesDatabase.getInstance(application)
         val dao = db.notesDao()
         repository = NotesRepository(dao)
 
-        //all = repository.all
+        all = repository.all()
     }
 }

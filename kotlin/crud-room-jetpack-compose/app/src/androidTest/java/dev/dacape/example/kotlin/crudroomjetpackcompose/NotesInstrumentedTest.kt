@@ -41,7 +41,7 @@ class NotesInstrumentedTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertAndGetNote() = runBlocking {
+    fun when_insert_findById() = runBlocking {
         val newNote = Note(id = null, text = "Text", create = null, update = null)
         notesDao.insert(newNote)
         val note = notesDao.findById(1)

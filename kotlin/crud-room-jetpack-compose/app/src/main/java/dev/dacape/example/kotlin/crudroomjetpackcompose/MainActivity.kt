@@ -9,16 +9,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -88,9 +90,9 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     ) {
         CrudScreen(
             all = all,
+            openDialog = openDialog,
             viewModel = viewModel
         )
-        EditDialog(openDialog = openDialog, onClose = {})
     }
 
 
@@ -100,31 +102,56 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 @Composable
 fun CrudScreen(
     all: List<Note>,
+    openDialog: MutableState<Boolean>,
     viewModel: NoteViewModel
 ) {
+    var note = Note(null, "text", null, null)
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(all){
                 ListItem(
                     headlineText = { Text(it.text) },
                     supportingText = { Text(it.text) },
-                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp)
+                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
+                    trailingContent = {
+                        IconButton(onClick = {
+                            note = it
+                            openDialog.value = true
+                        }){
+                            Icon( Icons.Rounded.Edit, contentDescription = null)
+                        }
+                    }
                 )
                 Divider()
             }
         }
     }
+
+    EditDialog(openDialog = openDialog, viewModel = viewModel, note = note, onClose = {})
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EditDialog(openDialog: MutableState<Boolean>, onClose:()->Unit){
+fun EditDialog(openDialog: MutableState<Boolean>,
+               viewModel: NoteViewModel, note: Note, onClose:()->Unit){
+
+    var text by rememberSaveable { mutableStateOf(note.text) }
+
     if (openDialog.value) {
         Dialog(
             onDismissRequest = onClose,
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Surface(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    TextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        label = { Text(text = "Text") }
+                    )
+                }
+
                 Box(modifier = Modifier.padding(16.dp)) {
                     TextButton(
                         onClick = {
@@ -136,6 +163,10 @@ fun EditDialog(openDialog: MutableState<Boolean>, onClose:()->Unit){
                     }
                     TextButton(
                         onClick = {
+                            if (note != null) {
+                                note.text = text
+                                viewModel.insert(note)
+                            }
                             openDialog.value = false
                         },
                         modifier = Modifier.align(Alignment.BottomEnd)

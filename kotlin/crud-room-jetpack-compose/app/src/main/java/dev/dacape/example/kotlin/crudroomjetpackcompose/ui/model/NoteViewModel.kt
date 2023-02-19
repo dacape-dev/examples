@@ -20,4 +20,8 @@ class NoteViewModel(application: Application): ViewModel() {
 
         all = repository.all()
     }
+
+    fun insert(note: Note){
+        repository.insert(note)
+    }
 }

@@ -1,25 +1,35 @@
 package dev.dacape.example.kotlin.crudroomjetpackcompose
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.model.Note
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.NoteViewModel
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.NoteViewModelFactory
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.theme.CrudroomjetpackcomposeTheme
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,23 +66,86 @@ fun Crud() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrudScreenSetup(viewModel: NoteViewModel) {
 
     val all by viewModel.all.observeAsState(listOf())
 
-    CrudScreen(
-        all = all,
-        viewModel = viewModel
-    )
+    val openDialog = remember { mutableStateOf(false) }
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = { openDialog.value = true }) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "New note"
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) {
+        CrudScreen(
+            all = all,
+            viewModel = viewModel
+        )
+        EditDialog(openDialog = openDialog, onClose = {})
+    }
+
+
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrudScreen(
     all: List<Note>,
     viewModel: NoteViewModel
 ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn {
+            items(all){
+                ListItem(
+                    headlineText = { Text(it.text) },
+                    supportingText = { Text(it.text) },
+                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp)
+                )
+                Divider()
+            }
+        }
+    }
+}
 
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun EditDialog(openDialog: MutableState<Boolean>, onClose:()->Unit){
+    if (openDialog.value) {
+        Dialog(
+            onDismissRequest = onClose,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Surface(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.padding(16.dp)) {
+                    TextButton(
+                        onClick = {
+                            openDialog.value = false
+                        },
+                        modifier = Modifier.align(Alignment.BottomCenter)
+                    ) {
+                        Text("Cancel")
+                    }
+                    TextButton(
+                        onClick = {
+                            openDialog.value = false
+                        },
+                        modifier = Modifier.align(Alignment.BottomEnd)
+                    ) {
+                        Text("Confirm")
+                    }
+                }
+            }
+        }
+    }
 }
 
 

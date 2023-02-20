@@ -75,11 +75,12 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 
     val all by viewModel.all.observeAsState(listOf())
 
-    val openDialog = remember { mutableStateOf(false) }
-
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { openDialog.value = true }) {
+            FloatingActionButton(onClick = {
+                viewModel.note = Note(null, "text", null, null)
+                viewModel.openDialog()
+            }) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "New note"
@@ -90,7 +91,6 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     ) {
         CrudScreen(
             all = all,
-            openDialog = openDialog,
             viewModel = viewModel
         )
     }
@@ -102,10 +102,8 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 @Composable
 fun CrudScreen(
     all: List<Note>,
-    openDialog: MutableState<Boolean>,
     viewModel: NoteViewModel
 ) {
-    var note = Note(null, "text", null, null)
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
             items(all){
@@ -115,8 +113,8 @@ fun CrudScreen(
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                     trailingContent = {
                         IconButton(onClick = {
-                            note = it
-                            openDialog.value = true
+                            viewModel.note = it
+                            viewModel.openDialog()
                         }){
                             Icon( Icons.Rounded.Edit, contentDescription = null)
                         }
@@ -127,17 +125,14 @@ fun CrudScreen(
         }
     }
 
-    EditDialog(openDialog = openDialog, viewModel = viewModel, note = note, onClose = {})
+    EditDialog(viewModel = viewModel, onClose = {})
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EditDialog(openDialog: MutableState<Boolean>,
-               viewModel: NoteViewModel, note: Note, onClose:()->Unit){
+fun EditDialog(viewModel: NoteViewModel, onClose:()->Unit){
 
-    var text by rememberSaveable { mutableStateOf(note.text) }
-
-    if (openDialog.value) {
+    if (viewModel.openDialog) {
         Dialog(
             onDismissRequest = onClose,
             properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -146,8 +141,8 @@ fun EditDialog(openDialog: MutableState<Boolean>,
                 Column(modifier = Modifier.padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally) {
                     TextField(
-                        value = text,
-                        onValueChange = { text = it },
+                        value = viewModel.note.text,
+                        onValueChange = { viewModel.note.text = it },
                         label = { Text(text = "Text") }
                     )
                 }
@@ -155,7 +150,7 @@ fun EditDialog(openDialog: MutableState<Boolean>,
                 Box(modifier = Modifier.padding(16.dp)) {
                     TextButton(
                         onClick = {
-                            openDialog.value = false
+                            viewModel.closeDialog()
                         },
                         modifier = Modifier.align(Alignment.BottomCenter)
                     ) {
@@ -163,11 +158,8 @@ fun EditDialog(openDialog: MutableState<Boolean>,
                     }
                     TextButton(
                         onClick = {
-                            if (note != null) {
-                                note.text = text
-                                viewModel.insert(note)
-                            }
-                            openDialog.value = false
+                            viewModel.insert()
+                            viewModel.closeDialog()
                         },
                         modifier = Modifier.align(Alignment.BottomEnd)
                     ) {

@@ -78,7 +78,7 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.note = Note(null, "text", null, null)
+                viewModel.new()
                 viewModel.openDialog()
             }) {
                 Icon(

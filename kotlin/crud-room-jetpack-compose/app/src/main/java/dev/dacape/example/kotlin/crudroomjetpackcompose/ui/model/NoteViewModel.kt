@@ -29,6 +29,10 @@ class NoteViewModel(application: Application): ViewModel() {
         all = repository.all()
     }
 
+    fun new(){
+        note = Note(null, "text", null, null)
+    }
+
     fun insert(){
         repository.insert(note)
     }

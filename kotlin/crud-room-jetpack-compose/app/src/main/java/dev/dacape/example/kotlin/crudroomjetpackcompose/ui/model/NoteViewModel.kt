@@ -37,11 +37,22 @@ class NoteViewModel(application: Application): ViewModel() {
         repository.insert(note)
     }
 
+    fun update(){
+        repository.update(note)
+    }
+
     fun openDialog(){
         openDialog = true
     }
 
     fun closeDialog(){
         openDialog = false
+    }
+
+    fun isEdit(): Boolean{
+        if(note.id == null){
+            return false
+        }
+        return true
     }
 }

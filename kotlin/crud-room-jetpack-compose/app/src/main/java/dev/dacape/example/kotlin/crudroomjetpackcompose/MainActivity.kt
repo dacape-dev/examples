@@ -158,7 +158,11 @@ fun EditDialog(viewModel: NoteViewModel, onClose:()->Unit){
                     }
                     TextButton(
                         onClick = {
-                            viewModel.insert()
+                            if(viewModel.isEdit()){
+                                viewModel.update()
+                            }else{
+                                viewModel.insert()
+                            }
                             viewModel.closeDialog()
                         },
                         modifier = Modifier.align(Alignment.BottomEnd)

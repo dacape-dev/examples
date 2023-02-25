@@ -1,15 +1,15 @@
 package dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model
 
 import android.app.Application
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.NotesDatabase
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.model.Note
 import dev.dacape.example.kotlin.crudroomjetpackcompose.repository.NotesRepository
+import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application): ViewModel() {
 
@@ -19,7 +19,10 @@ class NoteViewModel(application: Application): ViewModel() {
 
     var openDialog by mutableStateOf(false)
 
-    var note by mutableStateOf( Note(null, "text", null, null))
+    private var currentId: Int? = null
+
+    private val _text = mutableStateOf(TextFieldState())
+    val text: State<TextFieldState> = _text
 
     init {
         val db = NotesDatabase.getInstance(application)
@@ -29,16 +32,36 @@ class NoteViewModel(application: Application): ViewModel() {
         all = repository.all()
     }
 
-    fun new(){
-        note = Note(null, "text", null, null)
+    fun load(id: Int?){
+        viewModelScope.launch {
+            if (id != null) {
+                repository.findById(id)?.also { note ->
+                    currentId = note.id
+                    _text.value = text.value.copy(
+                        text = note.text
+                    )
+                }
+            }else{
+                currentId = null
+                _text.value = text.value.copy(
+                    text = "text"
+                )
+            }
+        }
+    }
+
+    fun setName(name: String){
+        _text.value = text.value.copy(
+            text = name
+        )
     }
 
     fun insert(){
-        repository.insert(note)
+        repository.insert(Note(null, text.value.text, null, null))
     }
 
     fun update(){
-        repository.update(note)
+        repository.update(Note(currentId, text.value.text, null, null))
     }
 
     fun openDialog(){
@@ -50,9 +73,13 @@ class NoteViewModel(application: Application): ViewModel() {
     }
 
     fun isEdit(): Boolean{
-        if(note.id == null){
+        if(currentId == null){
             return false
         }
         return true
     }
 }
+
+data class TextFieldState(
+    val text: String = ""
+)

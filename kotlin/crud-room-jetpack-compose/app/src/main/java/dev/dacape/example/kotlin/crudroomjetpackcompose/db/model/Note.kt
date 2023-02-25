@@ -11,7 +11,7 @@ data class Note(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int?,
+    var id: Int? = null,
 
     @ColumnInfo(name = "text")
     var text: String,

@@ -78,7 +78,7 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.new()
+                viewModel.load(null)
                 viewModel.openDialog()
             }) {
                 Icon(
@@ -113,7 +113,7 @@ fun CrudScreen(
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                     trailingContent = {
                         IconButton(onClick = {
-                            viewModel.note = it
+                            it.id?.let { id -> viewModel.load(id) }
                             viewModel.openDialog()
                         }){
                             Icon( Icons.Rounded.Edit, contentDescription = null)
@@ -125,12 +125,19 @@ fun CrudScreen(
         }
     }
 
-    EditDialog(viewModel = viewModel, onClose = {})
+    EditDialog(viewModel = viewModel, onEdit = {
+        if(viewModel.isEdit()){
+            viewModel.update()
+        }else{
+            viewModel.insert()
+        }
+        viewModel.closeDialog()
+    }, onClose = {})
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EditDialog(viewModel: NoteViewModel, onClose:()->Unit){
+fun EditDialog(viewModel: NoteViewModel, onEdit:()-> Unit, onClose:()->Unit){
 
     if (viewModel.openDialog) {
         Dialog(
@@ -141,9 +148,9 @@ fun EditDialog(viewModel: NoteViewModel, onClose:()->Unit){
                 Column(modifier = Modifier.padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally) {
                     TextField(
-                        value = viewModel.note.text,
-                        onValueChange = { viewModel.note.text = it },
-                        label = { Text(text = "Text") }
+                        value = viewModel.text.value.text,
+                        onValueChange = { viewModel.setName(it) },
+                        label = { Text("Text") }
                     )
                 }
 
@@ -157,14 +164,7 @@ fun EditDialog(viewModel: NoteViewModel, onClose:()->Unit){
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = {
-                            if(viewModel.isEdit()){
-                                viewModel.update()
-                            }else{
-                                viewModel.insert()
-                            }
-                            viewModel.closeDialog()
-                        },
+                        onClick = onEdit,
                         modifier = Modifier.align(Alignment.BottomEnd)
                     ) {
                         Text("Confirm")

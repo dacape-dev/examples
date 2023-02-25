@@ -23,8 +23,6 @@ interface NotesDao {
     fun all(): LiveData<List<Note>>
 
     @Query("SELECT * FROM notes WHERE id = :id")
-    fun findById(id: Int): Note
-
-
+    suspend fun findById(id: Int): Note
 
 }

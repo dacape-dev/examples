@@ -27,6 +27,10 @@ class NotesRepository(private val notesDao: NotesDao) {
         return notesDao.all()
     }
 
+    suspend fun findById(id: Int): Note {
+        return notesDao.findById(id)
+    }
+
     fun delete(id: Int) {
         coroutineScope.launch(Dispatchers.IO) {
             notesDao.delete(id)

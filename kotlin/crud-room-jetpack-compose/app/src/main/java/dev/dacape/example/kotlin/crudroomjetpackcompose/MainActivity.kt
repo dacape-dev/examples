@@ -79,8 +79,7 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.load(null)
-                viewModel.onEvent(Event.OpenDialog)
+                viewModel.onEvent(Event.Load(null))
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -92,7 +91,6 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     ) {
         CrudScreen(
             all = all,
-            viewModel = viewModel,
             openDialog = viewModel.openDialog,
             text = viewModel.text.value.text,
             onEvent = { viewModel.onEvent(it) }
@@ -106,7 +104,6 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 @Composable
 fun CrudScreen(
     all: List<Note>,
-    viewModel: NoteViewModel,
     openDialog: Boolean,
     text: String,
     onEvent: (Event)-> Unit,
@@ -120,7 +117,7 @@ fun CrudScreen(
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                     trailingContent = {
                         IconButton(onClick = {
-                            viewModel.load(it.id)
+                            onEvent(Event.Load(it.id))
                         }){
                             Icon( Icons.Rounded.Edit, contentDescription = null)
                         }

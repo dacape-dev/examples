@@ -32,7 +32,7 @@ class NoteViewModel(application: Application): ViewModel() {
         all = repository.all()
     }
 
-    fun load(id: Int?){
+    private fun load(id: Int?){
         viewModelScope.launch {
             if (id != null) {
                 repository.findById(id)?.also { note ->
@@ -47,11 +47,10 @@ class NoteViewModel(application: Application): ViewModel() {
                     text = "text"
                 )
             }
-            onEvent(Event.OpenDialog)
         }
     }
 
-    fun isEdit(): Boolean{
+    private fun isEdit(): Boolean{
         if(currentId == null){
             return false
         }
@@ -62,7 +61,7 @@ class NoteViewModel(application: Application): ViewModel() {
         when (event) {
             is Event.SetText -> {
                 _text.value = text.value.copy(
-                    text = event.value
+                    text = event.text
                 )
             }
             is Event.Save -> {
@@ -79,16 +78,21 @@ class NoteViewModel(application: Application): ViewModel() {
             is Event.CloseDialog -> {
                 openDialog = false
             }
+            is Event.Load -> {
+                load(event.id)
+                openDialog = true
+            }
         }
     }
 
 }
 
 sealed class Event {
-    data class SetText(val value: String): Event()
+    data class SetText(val text: String): Event()
     object OpenDialog: Event()
     object CloseDialog: Event()
     object Save: Event()
+    data class Load(val id: Int?): Event()
 }
 
 data class TextFieldState(

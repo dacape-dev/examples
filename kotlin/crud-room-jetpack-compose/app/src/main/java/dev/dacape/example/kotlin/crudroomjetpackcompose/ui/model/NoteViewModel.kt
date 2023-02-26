@@ -3,7 +3,6 @@ package dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model
 import android.app.Application
 import androidx.compose.runtime.*
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.dacape.example.kotlin.crudroomjetpackcompose.core.TextFieldState
@@ -43,7 +42,7 @@ class NoteViewModel(application: Application): ViewModel() {
     private fun load(id: Int?){
         viewModelScope.launch {
             if (id != null) {
-                repository.findById(id)?.also { note ->
+                repository.findById(id).also { note ->
                     currentId = note.id
                     _text.value = text.value.copy(
                         text = note.text

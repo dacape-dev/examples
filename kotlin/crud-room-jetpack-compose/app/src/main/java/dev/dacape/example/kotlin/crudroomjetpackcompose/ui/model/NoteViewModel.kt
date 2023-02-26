@@ -47,29 +47,8 @@ class NoteViewModel(application: Application): ViewModel() {
                     text = "text"
                 )
             }
+            onEvent(Event.OpenDialog)
         }
-    }
-
-    fun setName(name: String){
-        _text.value = text.value.copy(
-            text = name
-        )
-    }
-
-    fun insert(){
-        repository.insert(Note(null, text.value.text, null, null))
-    }
-
-    fun update(){
-        repository.update(Note(currentId, text.value.text, null, null))
-    }
-
-    fun openDialog(){
-        openDialog = true
-    }
-
-    fun closeDialog(){
-        openDialog = false
     }
 
     fun isEdit(): Boolean{
@@ -78,6 +57,37 @@ class NoteViewModel(application: Application): ViewModel() {
         }
         return true
     }
+
+    fun onEvent(event: Event) {
+        when (event) {
+            is Event.SetText -> {
+                _text.value = text.value.copy(
+                    text = event.value
+                )
+            }
+            is Event.Insert -> {
+                repository.insert(Note(null, text.value.text, null, null))
+            }
+            is Event.Update -> {
+                repository.update(Note(currentId, text.value.text, null, null))
+            }
+            is Event.OpenDialog -> {
+                openDialog = true
+            }
+            is Event.CloseDialog -> {
+                openDialog = false
+            }
+        }
+    }
+
+}
+
+sealed class Event {
+    data class SetText(val value: String): Event()
+    object OpenDialog: Event()
+    object CloseDialog: Event()
+    object Insert: Event()
+    object Update: Event()
 }
 
 data class TextFieldState(

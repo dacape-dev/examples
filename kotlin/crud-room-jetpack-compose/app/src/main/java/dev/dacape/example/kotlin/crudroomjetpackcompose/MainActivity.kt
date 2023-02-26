@@ -28,6 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.model.Note
+import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.Event
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.NoteViewModel
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.NoteViewModelFactory
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.theme.CrudroomjetpackcomposeTheme
@@ -79,7 +80,7 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.load(null)
-                viewModel.openDialog()
+                viewModel.onEvent(Event.OpenDialog)
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -91,7 +92,19 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
     ) {
         CrudScreen(
             all = all,
-            viewModel = viewModel
+            viewModel = viewModel,
+            onEdit = {
+                if(viewModel.isEdit()){
+                    viewModel.onEvent(Event.Update)
+                }else{
+                    viewModel.onEvent(Event.Insert)
+                }
+                viewModel.onEvent(Event.CloseDialog)
+            },
+            onClose = {
+                viewModel.onEvent(Event.CloseDialog)
+            },
+            onEvent = { viewModel.onEvent(it) }
         )
     }
 
@@ -102,7 +115,10 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 @Composable
 fun CrudScreen(
     all: List<Note>,
-    viewModel: NoteViewModel
+    viewModel: NoteViewModel,
+    onEdit:()-> Unit,
+    onClose:()-> Unit,
+    onEvent: (Event)-> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn {
@@ -114,7 +130,6 @@ fun CrudScreen(
                     trailingContent = {
                         IconButton(onClick = {
                             it.id?.let { id -> viewModel.load(id) }
-                            viewModel.openDialog()
                         }){
                             Icon( Icons.Rounded.Edit, contentDescription = null)
                         }
@@ -125,23 +140,16 @@ fun CrudScreen(
         }
     }
 
-    EditDialog(viewModel = viewModel, onEdit = {
-        if(viewModel.isEdit()){
-            viewModel.update()
-        }else{
-            viewModel.insert()
-        }
-        viewModel.closeDialog()
-    }, onClose = {})
+    EditDialog(viewModel = viewModel, onEdit = onEdit, onEvent = onEvent)
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EditDialog(viewModel: NoteViewModel, onEdit:()-> Unit, onClose:()->Unit){
+fun EditDialog(viewModel: NoteViewModel, onEdit:()-> Unit, onEvent: (Event)-> Unit){
 
     if (viewModel.openDialog) {
         Dialog(
-            onDismissRequest = onClose,
+            onDismissRequest = { onEvent(Event.CloseDialog) },
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Surface(modifier = Modifier.fillMaxSize()) {
@@ -149,16 +157,14 @@ fun EditDialog(viewModel: NoteViewModel, onEdit:()-> Unit, onClose:()->Unit){
                     horizontalAlignment = Alignment.CenterHorizontally) {
                     TextField(
                         value = viewModel.text.value.text,
-                        onValueChange = { viewModel.setName(it) },
+                        onValueChange = { onEvent(Event.SetText(it)) },
                         label = { Text("Text") }
                     )
                 }
 
                 Box(modifier = Modifier.padding(16.dp)) {
                     TextButton(
-                        onClick = {
-                            viewModel.closeDialog()
-                        },
+                        onClick = { onEvent(Event.CloseDialog) },
                         modifier = Modifier.align(Alignment.BottomCenter)
                     ) {
                         Text("Cancel")

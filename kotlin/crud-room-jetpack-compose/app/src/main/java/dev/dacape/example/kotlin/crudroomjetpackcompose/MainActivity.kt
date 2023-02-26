@@ -93,6 +93,8 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
         CrudScreen(
             all = all,
             viewModel = viewModel,
+            openDialog = viewModel.openDialog,
+            text = viewModel.text.value.text,
             onEvent = { viewModel.onEvent(it) }
         )
     }
@@ -105,6 +107,8 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 fun CrudScreen(
     all: List<Note>,
     viewModel: NoteViewModel,
+    openDialog: Boolean,
+    text: String,
     onEvent: (Event)-> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -127,14 +131,14 @@ fun CrudScreen(
         }
     }
 
-    EditDialog(viewModel = viewModel, onEvent = onEvent)
+    EditDialog(openDialog = openDialog, text = text, onEvent = onEvent)
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EditDialog(viewModel: NoteViewModel, onEvent: (Event)-> Unit){
+fun EditDialog(openDialog: Boolean, text: String, onEvent: (Event)-> Unit){
 
-    if (viewModel.openDialog) {
+    if (openDialog) {
         Dialog(
             onDismissRequest = { onEvent(Event.CloseDialog) },
             properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -143,7 +147,7 @@ fun EditDialog(viewModel: NoteViewModel, onEvent: (Event)-> Unit){
                 Column(modifier = Modifier.padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally) {
                     TextField(
-                        value = viewModel.text.value.text,
+                        value = text,
                         onValueChange = { onEvent(Event.SetText(it)) },
                         label = { Text("Text") }
                     )

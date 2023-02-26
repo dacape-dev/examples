@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.dacape.example.kotlin.crudroomjetpackcompose.core.TextFieldState
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.NotesDatabase
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.model.Note
 import dev.dacape.example.kotlin.crudroomjetpackcompose.repository.NotesRepository
@@ -97,18 +98,5 @@ class NoteViewModel(application: Application): ViewModel() {
             }
         }
     }
-
 }
 
-sealed class Event {
-    data class SetText(val text: String): Event()
-    object OpenDialog: Event()
-    object CloseDialog: Event()
-    object Save: Event()
-    data class Delete(val id: Int?): Event()
-    data class Load(val id: Int?): Event()
-}
-
-data class TextFieldState(
-    val text: String = ""
-)

@@ -65,11 +65,13 @@ class NoteViewModel(application: Application): ViewModel() {
                     text = event.value
                 )
             }
-            is Event.Insert -> {
-                repository.insert(Note(null, text.value.text, null, null))
-            }
-            is Event.Update -> {
-                repository.update(Note(currentId, text.value.text, null, null))
+            is Event.Save -> {
+                if(isEdit()){
+                    repository.update(Note(currentId, text.value.text, null, null))
+                }else{
+                    repository.insert(Note(null, text.value.text, null, null))
+                }
+                openDialog = false
             }
             is Event.OpenDialog -> {
                 openDialog = true
@@ -86,8 +88,7 @@ sealed class Event {
     data class SetText(val value: String): Event()
     object OpenDialog: Event()
     object CloseDialog: Event()
-    object Insert: Event()
-    object Update: Event()
+    object Save: Event()
 }
 
 data class TextFieldState(

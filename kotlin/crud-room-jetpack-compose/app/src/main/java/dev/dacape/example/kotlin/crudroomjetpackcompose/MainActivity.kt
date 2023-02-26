@@ -93,17 +93,6 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
         CrudScreen(
             all = all,
             viewModel = viewModel,
-            onEdit = {
-                if(viewModel.isEdit()){
-                    viewModel.onEvent(Event.Update)
-                }else{
-                    viewModel.onEvent(Event.Insert)
-                }
-                viewModel.onEvent(Event.CloseDialog)
-            },
-            onClose = {
-                viewModel.onEvent(Event.CloseDialog)
-            },
             onEvent = { viewModel.onEvent(it) }
         )
     }
@@ -116,8 +105,6 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 fun CrudScreen(
     all: List<Note>,
     viewModel: NoteViewModel,
-    onEdit:()-> Unit,
-    onClose:()-> Unit,
     onEvent: (Event)-> Unit,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -129,7 +116,7 @@ fun CrudScreen(
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                     trailingContent = {
                         IconButton(onClick = {
-                            it.id?.let { id -> viewModel.load(id) }
+                            viewModel.load(it.id)
                         }){
                             Icon( Icons.Rounded.Edit, contentDescription = null)
                         }
@@ -140,12 +127,12 @@ fun CrudScreen(
         }
     }
 
-    EditDialog(viewModel = viewModel, onEdit = onEdit, onEvent = onEvent)
+    EditDialog(viewModel = viewModel, onEvent = onEvent)
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EditDialog(viewModel: NoteViewModel, onEdit:()-> Unit, onEvent: (Event)-> Unit){
+fun EditDialog(viewModel: NoteViewModel, onEvent: (Event)-> Unit){
 
     if (viewModel.openDialog) {
         Dialog(
@@ -170,7 +157,7 @@ fun EditDialog(viewModel: NoteViewModel, onEdit:()-> Unit, onEvent: (Event)-> Un
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = onEdit,
+                        onClick = { onEvent(Event.Save) },
                         modifier = Modifier.align(Alignment.BottomEnd)
                     ) {
                         Text("Confirm")

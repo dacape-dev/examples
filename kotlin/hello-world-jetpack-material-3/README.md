@@ -2,7 +2,7 @@
 
 ![Hello world](https://github.com/dacape-dev/examples/blob/main/kotlin/hello-world-jetpack-material-3/helloworld.png#center)
 
-`🤖 Android` `🚀 Jetpack Compose` `🖌️ Material Design 3`
+`🤖 Android` `📖 Kotlin` `🚀 Jetpack Compose` `🖌️ Material Design 3`
 
 Simple Android application 'Hello world' developed with Kotlin, Android Jetpack and Material Design 3. It contains a text field whose value will modify a text output in real time.
 

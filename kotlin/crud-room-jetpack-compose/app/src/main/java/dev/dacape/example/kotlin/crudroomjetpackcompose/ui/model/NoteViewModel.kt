@@ -57,13 +57,6 @@ class NoteViewModel(application: Application): ViewModel() {
         }
     }
 
-    private fun isEdit(): Boolean{
-        if(currentId == null){
-            return false
-        }
-        return true
-    }
-
     fun onEvent(event: Event) {
         when (event) {
             is Event.SetText -> {
@@ -72,7 +65,7 @@ class NoteViewModel(application: Application): ViewModel() {
                 )
             }
             is Event.Save -> {
-                if(isEdit()){
+                if(currentId != null){
                     repository.update(Note(currentId, text.value.text, null, null))
                 }else{
                     repository.insert(Note(null, text.value.text, null, null))

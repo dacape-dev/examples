@@ -9,9 +9,15 @@ import androidx.lifecycle.viewModelScope
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.NotesDatabase
 import dev.dacape.example.kotlin.crudroomjetpackcompose.db.model.Note
 import dev.dacape.example.kotlin.crudroomjetpackcompose.repository.NotesRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application): ViewModel() {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private val repository: NotesRepository
 
@@ -23,6 +29,9 @@ class NoteViewModel(application: Application): ViewModel() {
 
     private val _text = mutableStateOf(TextFieldState())
     val text: State<TextFieldState> = _text
+
+    private val _eventFlow = MutableSharedFlow<Event>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         val db = NotesDatabase.getInstance(application)
@@ -71,6 +80,9 @@ class NoteViewModel(application: Application): ViewModel() {
                     repository.insert(Note(null, text.value.text, null, null))
                 }
                 openDialog = false
+                coroutineScope.launch(Dispatchers.IO) {
+                    _eventFlow.emit(Event.Save)
+                }
             }
             is Event.OpenDialog -> {
                 openDialog = true

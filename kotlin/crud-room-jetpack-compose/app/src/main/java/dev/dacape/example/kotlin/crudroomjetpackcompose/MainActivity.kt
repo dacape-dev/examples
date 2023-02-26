@@ -32,6 +32,8 @@ import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.Event
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.NoteViewModel
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.model.NoteViewModelFactory
 import dev.dacape.example.kotlin.crudroomjetpackcompose.ui.theme.CrudroomjetpackcomposeTheme
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MainActivity : ComponentActivity() {
@@ -76,6 +78,24 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
 
     val all by viewModel.all.observeAsState(listOf())
 
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(snackbarHostState) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is Event.Save -> {
+                    // show snackbar as a suspend function
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            "Action done"
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
@@ -87,7 +107,8 @@ fun CrudScreenSetup(viewModel: NoteViewModel) {
                 )
             }
         },
-        floatingActionButtonPosition = FabPosition.End
+        floatingActionButtonPosition = FabPosition.End,
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         CrudScreen(
             all = all,

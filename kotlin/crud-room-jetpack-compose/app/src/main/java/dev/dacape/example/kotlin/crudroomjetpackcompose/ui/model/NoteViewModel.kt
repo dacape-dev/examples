@@ -17,21 +17,19 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application): ViewModel() {
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
-
     private val repository: NotesRepository
 
-    val all: LiveData<List<Note>>
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    var openDialog by mutableStateOf(false)
-
-    private var currentId: Int? = null
+    private val _eventFlow = MutableSharedFlow<Event>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     private val _text = mutableStateOf(TextFieldState())
     val text: State<TextFieldState> = _text
 
-    private val _eventFlow = MutableSharedFlow<Event>()
-    val eventFlow = _eventFlow.asSharedFlow()
+    val all: LiveData<List<Note>>
+    var openDialog by mutableStateOf(false)
+    private var currentId: Int? = null
 
     init {
         val db = NotesDatabase.getInstance(application)
@@ -94,6 +92,9 @@ class NoteViewModel(application: Application): ViewModel() {
                 load(event.id)
                 openDialog = true
             }
+            is Event.Delete -> {
+                event.id?.let { repository.delete(it) }
+            }
         }
     }
 
@@ -104,6 +105,7 @@ sealed class Event {
     object OpenDialog: Event()
     object CloseDialog: Event()
     object Save: Event()
+    data class Delete(val id: Int?): Event()
     data class Load(val id: Int?): Event()
 }
 

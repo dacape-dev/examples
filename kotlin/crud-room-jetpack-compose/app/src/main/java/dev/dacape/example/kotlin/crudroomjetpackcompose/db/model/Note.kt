@@ -1,6 +1,5 @@
 package dev.dacape.example.kotlin.crudroomjetpackcompose.db.model
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey

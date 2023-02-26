@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -137,6 +138,13 @@ fun CrudScreen(
                     supportingText = { Text(it.text) },
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                     trailingContent = {
+                        IconButton(onClick = {
+                            onEvent(Event.Delete(it.id))
+                        }){
+                            Icon( Icons.Rounded.Delete, contentDescription = null)
+                        }
+                    },
+                    leadingContent = {
                         IconButton(onClick = {
                             onEvent(Event.Load(it.id))
                         }){

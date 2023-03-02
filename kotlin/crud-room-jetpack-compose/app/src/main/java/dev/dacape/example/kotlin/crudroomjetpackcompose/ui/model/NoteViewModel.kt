@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import java.util.*
 
 class NoteViewModel(application: Application): ViewModel() {
 
@@ -66,7 +67,7 @@ class NoteViewModel(application: Application): ViewModel() {
             }
             is Event.Save -> {
                 if(currentId != null){
-                    repository.update(Note(currentId, text.value.text, null, null))
+                    repository.update(Note(currentId, text.value.text, null, Date()))
                 }else{
                     repository.insert(Note(null, text.value.text, null, null))
                 }

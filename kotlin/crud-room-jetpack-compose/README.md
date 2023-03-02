@@ -1,6 +1,8 @@
 
 # ⭐ CRUD with Room + Jetpack Compose
 
+![CRUD with Room + Jetpack Compose](https://github.com/dacape-dev/examples/blob/main/kotlin/crud-room-jetpack-compose/room.png#center)
+
 `🤖 Android` `📖 Kotlin` `🚀 Jetpack Compose` `🖌️ Material Design 3` `🗄️ Room` 
 
 Simple notes app (to use as an example) for Android with a CRUD made with Kotlin, Room and Jetpack Compose.

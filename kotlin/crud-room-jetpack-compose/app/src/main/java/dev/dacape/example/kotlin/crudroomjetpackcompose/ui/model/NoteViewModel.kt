@@ -67,9 +67,9 @@ class NoteViewModel(application: Application): ViewModel() {
             }
             is Event.Save -> {
                 if(currentId != null){
-                    repository.update(Note(currentId, text.value.text, null, Date()))
+                    repository.update(Note(currentId, text.value.text, Date()))
                 }else{
-                    repository.insert(Note(null, text.value.text, null, null))
+                    repository.insert(Note(null, text.value.text, Date()))
                 }
                 openDialog = false
                 coroutineScope.launch(Dispatchers.IO) {

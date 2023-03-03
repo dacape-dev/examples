@@ -135,7 +135,7 @@ fun CrudScreen(
             items(all){
                 ListItem(
                     headlineText = { Text(it.text) },
-                    supportingText = { Text(it.text) },
+                    supportingText = { Text(it.update.toString()) },
                     modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp),
                     trailingContent = {
                         IconButton(onClick = {

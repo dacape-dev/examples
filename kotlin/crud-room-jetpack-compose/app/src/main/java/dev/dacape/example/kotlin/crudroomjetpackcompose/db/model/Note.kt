@@ -15,9 +15,6 @@ data class Note(
     @ColumnInfo(name = "text")
     var text: String,
 
-    @ColumnInfo(name = "create")
-    var create: Date? = Date(),
-
     @ColumnInfo(name = "update")
     var update: Date?
 
